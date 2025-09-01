@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Billsplitr</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            background-color: var(--tg-theme-bg-color, #f5f5f5);
+            color: var(--tg-theme-text-color, #222);
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        #input-fields {
+            padding: 15px 20px;
+        }
+        
+        .field-row {
+            display: flex;
+            gap: 12px;
+        }
+        
+        .field-container {
+            flex: 1;
+        }
+        
+        .field-container label {
+            display: block;
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--tg-theme-text-color, #222);
+            margin-bottom: 5px;
+            text-align: left;
+        }
+        
+        .field-container input {
+            width: 100%;
+            padding: 12px 15px;
+            background: var(--tg-theme-secondary-bg-color, #e8e8e8);
+            color: var(--tg-theme-text-color, #222);
+            border: 2px solid transparent;
+            border-radius: 8px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        
+        .field-container input:focus {
+            outline: none;
+            border-color: var(--tg-theme-button-color, #0088cc);
+            box-shadow: 0 0 0 2px rgba(0, 136, 204, 0.2);
+        }
+        
+        .field-container input::placeholder {
+            color: var(--tg-theme-hint-color, #999);
+        }
+        
+        #dropdown-container {
+            padding: 0 20px 5px;
+            display: flex;
+            justify-content: center;
+        }
+        
+        #options-dropdown {
+            padding: 10px 15px;
+            background: var(--tg-theme-secondary-bg-color, #e8e8e8);
+            color: var(--tg-theme-text-color, #222);
+            border: 2px solid var(--tg-theme-button-color, #0088cc);
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            min-width: 150px;
+            text-align: center;
+        }
+        
+        #options-dropdown:focus {
+            outline: none;
+            border-color: var(--tg-theme-button-color, #0088cc);
+            box-shadow: 0 0 0 2px rgba(0, 136, 204, 0.2);
+        }
+        
+        #mode-switcher {
+            display: flex;
+            justify-content: center;
+            gap: 4px;
+            padding: 10px 20px;
+            margin-bottom: 10px;
+        }
+        
+        #options-list {
+            padding: 0 20px 20px;
+        }
+        
+        .option-item {
+            margin-bottom: 12px;
+            padding: 12px 15px;
+            background: var(--tg-theme-secondary-bg-color, #f8f8f8);
+            border-radius: 8px;
+            border: 1px solid var(--tg-theme-hint-color, #ddd);
+            min-height: 56px;
+            height: 56px;
+        }
+        
+        .option-main {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .option-name {
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--tg-theme-text-color, #222);
+            flex: 1;
+            text-align: left;
+        }
+        
+        .option-amount {
+            font-size: 16px;
+            font-weight: bold;
+            color: var(--tg-theme-button-color, #0088cc);
+            margin-left: 12px;
+        }
+        
+        .option-controls {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            margin-top: 0;
+        }
+        
+        .percentage-input, .amount-input-field {
+            width: 91px;
+            padding: 7px 12px;
+            background: var(--tg-theme-bg-color, #fff);
+            color: var(--tg-theme-text-color, #222);
+            border: 1px solid var(--tg-theme-hint-color, #ddd);
+            border-radius: 6px;
+            font-size: 15px;
+            box-sizing: border-box;
+            margin-left: 12px;
+        }
+        
+        .percentage-input:focus, .amount-input-field:focus {
+            outline: none;
+            border-color: var(--tg-theme-button-color, #0088cc);
+        }
+        
+        #outstanding-amount {
+            margin-top: 15px;
+            padding: 12px 15px;
+            background: var(--tg-theme-hint-color, #f0f0f0);
+            border-radius: 8px;
+            border: 2px solid var(--tg-theme-button-color, #0088cc);
+        }
+        
+        .outstanding-display {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .outstanding-label {
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--tg-theme-text-color, #222);
+        }
+        
+        .outstanding-value {
+            font-size: 16px;
+            font-weight: bold;
+            color: var(--tg-theme-button-color, #0088cc);
+        }
+        
+        .mode-btn {
+            flex: 1;
+            max-width: 100px;
+            padding: 8px 12px;
+            background: var(--tg-theme-secondary-bg-color, #e8e8e8);
+            color: var(--tg-theme-text-color, #222);
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 2px solid transparent;
+        }
+        
+        .mode-btn.active {
+            background: var(--tg-theme-button-color, #0088cc);
+            color: var(--tg-theme-button-text-color, #fff);
+            border-color: var(--tg-theme-button-color, #0088cc);
+        }
+        
+        .mode-btn:hover {
+            opacity: 0.8;
+        }
+        
+        #game-container {
+            max-width: 100%;
+            min-height: 100vh;
+            padding: 0 20px 20px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        #click-area {
+            width: 200px;
+            height: 200px;
+            margin: 20px auto;
+            background: var(--tg-theme-button-color, #0088cc);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--tg-theme-button-text-color, #fff);
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+            user-select: none;
+            transition: transform 0.1s;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        #score-display {
+            font-size: 28px;
+            margin: 15px 0;
+            color: var(--tg-theme-text-color, #222);
+        }
+        
+        #username-display {
+            font-size: 20px;
+            margin-bottom: 12px;
+            padding: 12px 15px;
+            background: var(--tg-theme-secondary-bg-color, #f8f8f8);
+            border-radius: 8px;
+            border: 1px solid var(--tg-theme-hint-color, #ddd);
+            min-height: 56px;
+            height: 56px;
+            font-size: 16px;
+            margin-bottom: 15px;
+            color: var(--tg-theme-hint-color, #999);
+            font-weight: 500;
+        }
+        
+        .btn {
+            padding: 12px 24px;
+            background: var(--tg-theme-button-color, #0088cc);
+            color: var(--tg-theme-button-text-color, #fff);
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 8px;
+            transition: opacity 0.2s;
+        }
+        
+        .btn:active {
+            opacity: 0.8;
+        }
+        
+        .submitting {
+            opacity: 0.7;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="input-fields">
+        <div class="field-row">
+            <div class="field-container">
+                <label for="title-input">Title</label>
+                <input type="text" id="title-input" placeholder="Enter title">
+            </div>
+            <div class="field-container">
+                <label for="amount-input">Amount</label>
+                <input type="number" id="amount-input" placeholder="Enter amount">
+            </div>
+        </div>
+    </div>
+    
+    <div id="dropdown-container">
+        <label for="options-dropdown" style="align-self: center; margin-right: 12px; font-weight: 500; font-size: 16px;">Paid by:</label>
+        <select id="options-dropdown">
+            <option value="a">Option A</option>
+            <option value="b">Option B</option>
+            <option value="c">Option C</option>
+        </select>
+    </div>
+    
+    <div id="mode-switcher">
+        <button class="mode-btn active" data-mode="equally">Equally</button>
+        <button class="mode-btn" data-mode="percentage">Percentage</button>
+        <button class="mode-btn" data-mode="amounts">Amounts</button>
+    </div>
+    
+    <div id="options-list">
+        <div class="option-item" data-option="a">
+            <div class="option-main">
+                <span class="option-name">Option A</span>
+                <input type="number" class="percentage-input" placeholder="%" style="display: none;">
+                <input type="number" class="amount-input-field" placeholder="Amount" style="display: none;">
+                <span class="option-amount">$0.00</span>
+            </div>
+        </div>
+        
+        <div class="option-item" data-option="b">
+            <div class="option-main">
+                <span class="option-name">Option B</span>
+                <input type="number" class="percentage-input" placeholder="%" style="display: none;">
+                <input type="number" class="amount-input-field" placeholder="Amount" style="display: none;">
+                <span class="option-amount">$0.00</span>
+            </div>
+        </div>
+        
+        <div class="option-item" data-option="c">
+            <div class="option-main">
+                <span class="option-name">Option C</span>
+                <input type="number" class="percentage-input" placeholder="%" style="display: none;">
+                <input type="number" class="amount-input-field" placeholder="Amount" style="display: none;">
+                <span class="option-amount">$0.00</span>
+            </div>
+        </div>
+        
+        <div id="outstanding-amount" style="display: none;">
+            <div class="outstanding-display">
+                <span class="outstanding-label">Outstanding:</span>
+                <span class="outstanding-value">$0.00</span>
+            </div>
+        </div>
+    </div>
+    
+    <button id="add-expense-btn" class="btn" style="margin-bottom: 24px;">Add expense</button>
+    <div id="game-container">
+    </div>
+
+    <script>
+    // Initialize Telegram WebApp
+    const tg = window.Telegram?.WebApp;
+
+    // App state
+    let currentMode = "equally";
+    let selectedOption = "a";
+    let title = "";
+    let amount = 0;
+    let optionAmounts = { a: 0, b: 0, c: 0 };
+    let optionPercentages = { a: 0, b: 0, c: 0 };
+
+    // DOM elements
+    const gameContainer = document.getElementById('game-container');
+    const modeButtons = document.querySelectorAll('.mode-btn');
+    const optionsDropdown = document.getElementById('options-dropdown');
+    const titleInput = document.getElementById('title-input');
+    const amountInput = document.getElementById('amount-input');
+    const optionItems = document.querySelectorAll('.option-item');
+    const outstandingAmount = document.getElementById('outstanding-amount');
+    const addExpenseBtn = document.getElementById('add-expense-btn');
+        
+        // Initialize the game
+        function initGame() {
+            if (tg) {
+                // Expand to full available height
+                tg.expand();
+                
+                // Set up theme change handler
+                tg.onEvent('themeChanged', updateTheme);
+                tg.onEvent('viewportChanged', updateLayout);
+                
+                // Get user data
+                updateUserData();
+                
+                // Set up main button
+                setupMainButton();
+                
+                console.log("Telegram WebApp initialized. Color scheme:", tg.colorScheme);
+            }
+            
+            // Update UI with initial values
+            updateTheme();
+            updateLayout();
+            
+            // Set up game mechanics
+            setupEventListeners();
+            // Add expense button event
+            addExpenseBtn.addEventListener('click', handleAddExpense);
+        // Handle Add Expense button click
+        function handleAddExpense() {
+            // Gather option values
+            let expenseData = {
+                title,
+                amount,
+                mode: currentMode,
+                paid_by: selectedOption,
+                options: {}
+            };
+            optionItems.forEach(item => {
+                const option = item.dataset.option;
+                let value = 0;
+                if (currentMode === 'equally') {
+                    value = amount / 3;
+                } else if (currentMode === 'percentage') {
+                    value = (amount * (optionPercentages[option] || 0)) / 100;
+                } else if (currentMode === 'amounts') {
+                    value = optionAmounts[option] || 0;
+                }
+                expenseData.options[option] = value;
+            });
+
+            // Send out the expense data (for now, just log and send via Telegram WebApp if available)
+            console.log('Expense submitted:', expenseData);
+            if (tg) {
+                tg.sendData(JSON.stringify(expenseData));
+            } else {
+                alert('Expense data: ' + JSON.stringify(expenseData, null, 2));
+            }
+        }
+        }
+        
+        function updateUserData() {
+            // No user data needed for now
+        }
+        
+        function setupMainButton() {
+            if (!tg) return;
+            
+        }
+        
+        function setupEventListeners() {
+            // Mode switcher event listeners
+            modeButtons.forEach(btn => {
+                btn.addEventListener('click', () => switchMode(btn.dataset.mode));
+            });
+            
+            // Dropdown event listener
+            optionsDropdown.addEventListener('change', (e) => {
+                selectedOption = e.target.value;
+                console.log(`Selected option: ${selectedOption}`);
+            });
+            
+            // Input field event listeners
+            titleInput.addEventListener('input', (e) => {
+                title = e.target.value;
+                console.log(`Title: ${title}`);
+            });
+            
+            amountInput.addEventListener('input', (e) => {
+                amount = parseFloat(e.target.value) || 0;
+                console.log(`Amount: ${amount}`);
+                updateOptionAmounts();
+            });
+            
+            // Option controls event listeners
+            optionItems.forEach(item => {
+                const option = item.dataset.option;
+                const percentageInput = item.querySelector('.percentage-input');
+                const amountInputField = item.querySelector('.amount-input-field');
+                
+                percentageInput.addEventListener('input', (e) => {
+                    optionPercentages[option] = parseFloat(e.target.value) || 0;
+                    updateOptionAmounts();
+                });
+                
+                amountInputField.addEventListener('input', (e) => {
+                    optionAmounts[option] = parseFloat(e.target.value) || 0;
+                    updateOptionAmounts();
+                });
+            });
+            
+            // Cleanup handler
+            window.addEventListener('beforeunload', cleanup);
+        }
+        
+        function switchMode(mode) {
+            currentMode = mode;
+            
+            // Update active button
+            modeButtons.forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.mode === mode);
+            });
+            
+            // Show/hide appropriate controls
+            optionItems.forEach(item => {
+                const percentageInput = item.querySelector('.percentage-input');
+                const amountInputField = item.querySelector('.amount-input-field');
+                if (mode === 'percentage') {
+                    percentageInput.style.display = 'inline-block';
+                    amountInputField.style.display = 'none';
+                    outstandingAmount.style.display = 'none';
+                } else if (mode === 'amounts') {
+                    percentageInput.style.display = 'none';
+                    amountInputField.style.display = 'inline-block';
+                    outstandingAmount.style.display = 'block';
+                } else {
+                    percentageInput.style.display = 'none';
+                    amountInputField.style.display = 'none';
+                    outstandingAmount.style.display = 'none';
+                }
+            });
+            
+            updateOptionAmounts();
+            console.log(`Switched to ${mode} mode`);
+        }
+        
+        function updateOptionAmounts() {
+            if (currentMode === 'equally') {
+                // Split equally among all options
+                const equalAmount = amount / 3;
+                optionItems.forEach(item => {
+                    const amountSpan = item.querySelector('.option-amount');
+                    amountSpan.textContent = `${equalAmount.toFixed(2)}`;
+                });
+            } else if (currentMode === 'percentage') {
+                // Calculate based on percentages
+                optionItems.forEach(item => {
+                    const option = item.dataset.option;
+                    const percentage = optionPercentages[option] || 0;
+                    const calculatedAmount = (amount * percentage) / 100;
+                    const amountSpan = item.querySelector('.option-amount');
+                    amountSpan.textContent = `${calculatedAmount.toFixed(2)}`;
+                });
+            } else if (currentMode === 'amounts') {
+                // Use manual amounts
+                let totalUsed = 0;
+                optionItems.forEach(item => {
+                    const option = item.dataset.option;
+                    const manualAmount = optionAmounts[option] || 0;
+                    totalUsed += manualAmount;
+                    const amountSpan = item.querySelector('.option-amount');
+                    amountSpan.textContent = `${manualAmount.toFixed(2)}`;
+                });
+                
+                // Update outstanding amount
+                const outstanding = amount - totalUsed;
+                const outstandingValue = document.querySelector('.outstanding-value');
+                outstandingValue.textContent = `${outstanding.toFixed(2)}`;
+                outstandingValue.style.color = outstanding < 0 ? '#ff4444' : 'var(--tg-theme-button-color, #0088cc)';
+            }
+        }
+        
+        function cleanup() {
+            window.removeEventListener('beforeunload', cleanup);
+            
+            if (tg) {
+                tg.offEvent('themeChanged', updateTheme);
+                tg.offEvent('viewportChanged', updateLayout);
+            }
+        }
+        
+        function updateTheme() {
+            if (!tg) return;
+            
+            document.body.style.setProperty('--tg-theme-bg-color', tg.themeParams.bg_color || '#ffffff');
+            document.body.style.setProperty('--tg-theme-text-color', tg.themeParams.text_color || '#000000');
+            document.body.style.setProperty('--tg-theme-hint-color', tg.themeParams.hint_color || '#999999');
+            document.body.style.setProperty('--tg-theme-button-color', tg.themeParams.button_color || '#0088cc');
+            document.body.style.setProperty('--tg-theme-button-text-color', tg.themeParams.button_text_color || '#ffffff');
+            document.body.style.setProperty('--tg-theme-secondary-bg-color', tg.themeParams.secondary_bg_color || '#e8e8e8');
+        }
+        
+        function updateLayout() {
+            if (!tg || !tg.viewportHeight) return;
+            
+            gameContainer.style.minHeight = `${tg.viewportHeight}px`;
+        }
+        
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', initGame);
+    </script>
+</body>
+</html>
