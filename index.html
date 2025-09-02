@@ -16,6 +16,120 @@
             -webkit-tap-highlight-color: transparent;
         }
         
+        .page {
+            display: none;
+        }
+        
+        .page.active {
+            display: block;
+        }
+        
+        /* Home Page Styles */
+        #header {
+            padding: 20px;
+            text-align: center;
+        }
+        
+        #header h1 {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--tg-theme-text-color, #222);
+            margin: 0 0 10px 0;
+        }
+        
+        #balances-section {
+            padding: 0 20px 20px;
+        }
+        
+        #balances-table {
+            width: 100%;
+            background: var(--tg-theme-secondary-bg-color, #f8f8f8);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .table-header {
+            background: var(--tg-theme-button-color, #0088cc);
+            color: var(--tg-theme-button-text-color, #fff);
+            padding: 15px;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        
+        .balance-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid var(--tg-theme-hint-color, #eee);
+        }
+        
+        .balance-row:last-child {
+            border-bottom: none;
+        }
+        
+        .person-name {
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--tg-theme-text-color, #222);
+        }
+        
+        .balance-amount {
+            font-size: 16px;
+            font-weight: bold;
+        }
+        
+        .balance-amount.positive {
+            color: #22c55e;
+        }
+        
+        .balance-amount.negative {
+            color: #ef4444;
+        }
+        
+        .balance-amount.zero {
+            color: var(--tg-theme-hint-color, #999);
+        }
+        
+        .empty-state {
+            padding: 40px 20px;
+            color: var(--tg-theme-hint-color, #999);
+            font-size: 16px;
+        }
+        
+        .empty-state-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+        
+        /* Expense Page Styles */
+        #expense-header {
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        #back-btn {
+            padding: 8px 12px;
+            background: var(--tg-theme-secondary-bg-color, #e8e8e8);
+            color: var(--tg-theme-text-color, #222);
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+        
+        #expense-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--tg-theme-text-color, #222);
+            flex: 1;
+            text-align: left;
+        }
+        
         #input-fields {
             padding: 15px 20px;
         }
@@ -62,7 +176,16 @@
         #dropdown-container {
             padding: 0 20px 5px;
             display: flex;
+            align-items: center;
             justify-content: center;
+            gap: 10px;
+        }
+
+        #paid-by-label {
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--tg-theme-text-color, #222);
+            margin-right: 5px;
         }
         
         #options-dropdown {
@@ -74,8 +197,8 @@
             font-size: 16px;
             font-weight: 500;
             cursor: pointer;
-            min-width: 150px;
-            text-align: center;
+            min-width: 120px;
+            text-align: left;
         }
         
         #options-dropdown:focus {
@@ -102,49 +225,43 @@
             background: var(--tg-theme-secondary-bg-color, #f8f8f8);
             border-radius: 8px;
             border: 1px solid var(--tg-theme-hint-color, #ddd);
-            min-height: 56px;
-            height: 56px;
         }
         
         .option-main {
             display: flex;
-            justify-content: flex-start;
+            justify-content: space-between;
             align-items: center;
-            gap: 8px;
+            margin-bottom: 8px;
         }
         
         .option-name {
             font-size: 16px;
             font-weight: 500;
             color: var(--tg-theme-text-color, #222);
-            flex: 1;
-            text-align: left;
         }
         
         .option-amount {
             font-size: 16px;
             font-weight: bold;
             color: var(--tg-theme-button-color, #0088cc);
-            margin-left: 12px;
         }
         
         .option-controls {
             display: flex;
             gap: 8px;
-            align-items: center;
-            margin-top: 0;
         }
         
         .percentage-input, .amount-input-field {
-            width: 91px;
-            padding: 7px 12px;
+            width: 140px;
+            padding: 6px 8px;
             background: var(--tg-theme-bg-color, #fff);
             color: var(--tg-theme-text-color, #222);
             border: 1px solid var(--tg-theme-hint-color, #ddd);
             border-radius: 6px;
-            font-size: 15px;
+            font-size: 14px;
             box-sizing: border-box;
-            margin-left: 12px;
+            text-align: right;
+            margin-left: 8px;
         }
         
         .percentage-input:focus, .amount-input-field:focus {
@@ -203,6 +320,24 @@
             opacity: 0.8;
         }
         
+        .btn {
+            padding: 15px 30px;
+            background: var(--tg-theme-button-color, #0088cc);
+            color: var(--tg-theme-button-text-color, #fff);
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 20px;
+            transition: opacity 0.2s;
+            box-shadow: 0 4px 12px rgba(0, 136, 204, 0.3);
+        }
+        
+        .btn:active {
+            opacity: 0.8;
+        }
+        
         #game-container {
             max-width: 100%;
             min-height: 100vh;
@@ -213,229 +348,160 @@
             align-items: center;
             justify-content: center;
         }
-        
-        #click-area {
-            width: 200px;
-            height: 200px;
-            margin: 20px auto;
-            background: var(--tg-theme-button-color, #0088cc);
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--tg-theme-button-text-color, #fff);
-            font-size: 24px;
-            font-weight: bold;
-            cursor: pointer;
-            user-select: none;
-            transition: transform 0.1s;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
-        
-        #score-display {
-            font-size: 28px;
-            margin: 15px 0;
-            color: var(--tg-theme-text-color, #222);
-        }
-        
-        #username-display {
-            font-size: 20px;
-            margin-bottom: 12px;
-            padding: 12px 15px;
-            background: var(--tg-theme-secondary-bg-color, #f8f8f8);
-            border-radius: 8px;
-            border: 1px solid var(--tg-theme-hint-color, #ddd);
-            min-height: 56px;
-            height: 56px;
-            font-size: 16px;
-            margin-bottom: 15px;
-            color: var(--tg-theme-hint-color, #999);
-            font-weight: 500;
-        }
-        
-        .btn {
-            padding: 12px 24px;
-            background: var(--tg-theme-button-color, #0088cc);
-            color: var(--tg-theme-button-text-color, #fff);
-            border: none;
-            border-radius: 10px;
-            font-size: 16px;
-            cursor: pointer;
-            margin: 8px;
-            transition: opacity 0.2s;
-        }
-        
-        .btn:active {
-            opacity: 0.8;
-        }
-        
-        .submitting {
-            opacity: 0.7;
-            pointer-events: none;
-        }
     </style>
 </head>
 <body>
-    <div id="input-fields">
-        <div class="field-row">
-            <div class="field-container">
-                <label for="title-input">Title</label>
-                <input type="text" id="title-input" placeholder="Enter title">
-            </div>
-            <div class="field-container">
-                <label for="amount-input">Amount</label>
-                <input type="number" id="amount-input" placeholder="Enter amount">
-            </div>
+    <!-- Home Page -->
+    <div id="home-page" class="page active">
+        <div id="header">
+            <h1>💰 Billsplitr</h1>
         </div>
-    </div>
-    
-    <div id="dropdown-container">
-        <label for="options-dropdown" style="align-self: center; margin-right: 12px; font-weight: 500; font-size: 16px;">Paid by:</label>
-        <select id="options-dropdown">
-            <option value="a">Option A</option>
-            <option value="b">Option B</option>
-            <option value="c">Option C</option>
-        </select>
-    </div>
-    
-    <div id="mode-switcher">
-        <button class="mode-btn active" data-mode="equally">Equally</button>
-        <button class="mode-btn" data-mode="percentage">Percentage</button>
-        <button class="mode-btn" data-mode="amounts">Amounts</button>
-    </div>
-    
-    <div id="options-list">
-        <div class="option-item" data-option="a">
-            <div class="option-main">
-                <span class="option-name">Option A</span>
-                <input type="number" class="percentage-input" placeholder="%" style="display: none;">
-                <input type="number" class="amount-input-field" placeholder="Amount" style="display: none;">
-                <span class="option-amount">$0.00</span>
+        
+        <div id="balances-section">
+            <div id="balances-table">
+                <div class="table-header">Current Balances</div>
+                <div id="balances-content">
+                    <!-- Balances will be populated here -->
+                </div>
             </div>
         </div>
         
-        <div class="option-item" data-option="b">
-            <div class="option-main">
-                <span class="option-name">Option B</span>
-                <input type="number" class="percentage-input" placeholder="%" style="display: none;">
-                <input type="number" class="amount-input-field" placeholder="Amount" style="display: none;">
-                <span class="option-amount">$0.00</span>
-            </div>
-        </div>
-        
-        <div class="option-item" data-option="c">
-            <div class="option-main">
-                <span class="option-name">Option C</span>
-                <input type="number" class="percentage-input" placeholder="%" style="display: none;">
-                <input type="number" class="amount-input-field" placeholder="Amount" style="display: none;">
-                <span class="option-amount">$0.00</span>
-            </div>
-        </div>
-        
-        <div id="outstanding-amount" style="display: none;">
-            <div class="outstanding-display">
-                <span class="outstanding-label">Outstanding:</span>
-                <span class="outstanding-value">$0.00</span>
-            </div>
-        </div>
+        <button id="add-expense-nav-btn" class="btn">+ Add Expense</button>
     </div>
     
-    <button id="add-expense-btn" class="btn" style="margin-bottom: 24px;">Add expense</button>
-    <div id="game-container">
+    <!-- Expense Page -->
+    <div id="expense-page" class="page">
+        <div id="expense-header">
+            <button id="back-btn">← Back</button>
+            <div id="expense-title">Add Expense</div>
+        </div>
+        
+        <div id="input-fields">
+            <div class="field-row">
+                <div class="field-container">
+                    <label for="title-input">Title</label>
+                    <input type="text" id="title-input" placeholder="Enter title">
+                </div>
+                <div class="field-container">
+                    <label for="amount-input">Amount</label>
+                    <input type="number" id="amount-input" placeholder="Enter amount">
+                </div>
+            </div>
+        </div>
+        
+        <div id="dropdown-container">
+            <span id="paid-by-label">Paid by</span>
+            <select id="options-dropdown">
+                <option value="a">Option A</option>
+                <option value="b">Option B</option>
+                <option value="c">Option C</option>
+            </select>
+        </div>
+        
+        <div id="mode-switcher">
+            <button class="mode-btn active" data-mode="equally">Equally</button>
+            <button class="mode-btn" data-mode="percentage">Percentage</button>
+            <button class="mode-btn" data-mode="amounts">Amounts</button>
+        </div>
+        
+        <div id="options-list">
+            <div class="option-item" data-option="a">
+                <div class="option-main">
+                    <span class="option-name">Option A</span>
+                    <input type="number" class="percentage-input" placeholder="%" style="display: none;">
+                    <input type="number" class="amount-input-field" placeholder="Amount" style="display: none;">
+                    <span class="option-amount">$0.00</span>
+                </div>
+            </div>
+            
+            <div class="option-item" data-option="b">
+                <div class="option-main">
+                    <span class="option-name">Option B</span>
+                    <input type="number" class="percentage-input" placeholder="%" style="display: none;">
+                    <input type="number" class="amount-input-field" placeholder="Amount" style="display: none;">
+                    <span class="option-amount">$0.00</span>
+                </div>
+            </div>
+            
+            <div class="option-item" data-option="c">
+                <div class="option-main">
+                    <span class="option-name">Option C</span>
+                    <input type="number" class="percentage-input" placeholder="%" style="display: none;">
+                    <input type="number" class="amount-input-field" placeholder="Amount" style="display: none;">
+                    <span class="option-amount">$0.00</span>
+                </div>
+            </div>
+            
+            <div id="outstanding-amount" style="display: none;">
+                <div class="outstanding-display">
+                    <span class="outstanding-label">Outstanding:</span>
+                    <span class="outstanding-value">$0.00</span>
+                </div>
+            </div>
+        </div>
+        
+        <button id="add-expense-btn" class="btn">Add Expense</button>
     </div>
 
     <script>
-    // Initialize Telegram WebApp
-    const tg = window.Telegram?.WebApp;
-
-    // App state
-    let currentMode = "equally";
-    let selectedOption = "a";
-    let title = "";
-    let amount = 0;
-    let optionAmounts = { a: 0, b: 0, c: 0 };
-    let optionPercentages = { a: 0, b: 0, c: 0 };
-
-    // DOM elements
-    const gameContainer = document.getElementById('game-container');
-    const modeButtons = document.querySelectorAll('.mode-btn');
-    const optionsDropdown = document.getElementById('options-dropdown');
-    const titleInput = document.getElementById('title-input');
-    const amountInput = document.getElementById('amount-input');
-    const optionItems = document.querySelectorAll('.option-item');
-    const outstandingAmount = document.getElementById('outstanding-amount');
-    const addExpenseBtn = document.getElementById('add-expense-btn');
+        // Initialize Telegram WebApp
+        const tg = window.Telegram?.WebApp;
         
-        // Initialize the game
-        function initGame() {
+        // App state
+        let currentPage = 'home';
+        let currentMode = "equally";
+        let selectedOption = "a";
+        let title = "";
+        let amount = 0;
+        let optionAmounts = { a: 0, b: 0, c: 0 };
+        let optionPercentages = { a: 0, b: 0, c: 0 };
+        
+        // Balance tracking
+        let balances = { a: 0, b: 0, c: 0 };
+        let personNames = { a: "Option A", b: "Option B", c: "Option C" };
+        
+        // DOM elements
+        const homePage = document.getElementById('home-page');
+        const expensePage = document.getElementById('expense-page');
+        const balancesContent = document.getElementById('balances-content');
+        const addExpenseNavBtn = document.getElementById('add-expense-nav-btn');
+        const backBtn = document.getElementById('back-btn');
+        const addExpenseBtn = document.getElementById('add-expense-btn');
+        const modeButtons = document.querySelectorAll('.mode-btn');
+        const optionsDropdown = document.getElementById('options-dropdown');
+        const titleInput = document.getElementById('title-input');
+        const amountInput = document.getElementById('amount-input');
+        const optionItems = document.querySelectorAll('.option-item');
+        const outstandingAmount = document.getElementById('outstanding-amount');
+        
+        // Initialize the app
+        function initApp() {
             if (tg) {
-                // Expand to full available height
                 tg.expand();
-                
-                // Set up theme change handler
                 tg.onEvent('themeChanged', updateTheme);
                 tg.onEvent('viewportChanged', updateLayout);
-                
-                // Get user data
-                updateUserData();
-                
-                // Set up main button
-                setupMainButton();
-                
                 console.log("Telegram WebApp initialized. Color scheme:", tg.colorScheme);
             }
             
-            // Update UI with initial values
             updateTheme();
             updateLayout();
-            
-            // Set up game mechanics
             setupEventListeners();
-            // Add expense button event
-            addExpenseBtn.addEventListener('click', handleAddExpense);
-        // Handle Add Expense button click
-        function handleAddExpense() {
-            // Gather option values
-            let expenseData = {
-                title,
-                amount,
-                mode: currentMode,
-                paid_by: selectedOption,
-                options: {}
-            };
-            optionItems.forEach(item => {
-                const option = item.dataset.option;
-                let value = 0;
-                if (currentMode === 'equally') {
-                    value = amount / 3;
-                } else if (currentMode === 'percentage') {
-                    value = (amount * (optionPercentages[option] || 0)) / 100;
-                } else if (currentMode === 'amounts') {
-                    value = optionAmounts[option] || 0;
-                }
-                expenseData.options[option] = value;
-            });
-
-            // Send out the expense data (for now, just log and send via Telegram WebApp if available)
-            console.log('Expense submitted:', expenseData);
-            if (tg) {
-                tg.sendData(JSON.stringify(expenseData));
-            } else {
-                alert('Expense data: ' + JSON.stringify(expenseData, null, 2));
-            }
-        }
+            loadBalances();
+            renderBalances();
         }
         
-        function updateUserData() {
-            // No user data needed for now
-        }
-        
-        function setupMainButton() {
-            if (!tg) return;
-            
+        // Navigation functions
+        function showPage(page) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(`${page}-page`).classList.add('active');
+            currentPage = page;
         }
         
         function setupEventListeners() {
+            // Navigation
+            addExpenseNavBtn.addEventListener('click', () => showPage('expense'));
+            backBtn.addEventListener('click', () => showPage('home'));
+            
             // Mode switcher event listeners
             modeButtons.forEach(btn => {
                 btn.addEventListener('click', () => switchMode(btn.dataset.mode));
@@ -476,6 +542,9 @@
                 });
             });
             
+            // Add expense button
+            addExpenseBtn.addEventListener('click', handleAddExpense);
+            
             // Cleanup handler
             window.addEventListener('beforeunload', cleanup);
         }
@@ -492,6 +561,7 @@
             optionItems.forEach(item => {
                 const percentageInput = item.querySelector('.percentage-input');
                 const amountInputField = item.querySelector('.amount-input-field');
+                
                 if (mode === 'percentage') {
                     percentageInput.style.display = 'inline-block';
                     amountInputField.style.display = 'none';
@@ -513,38 +583,172 @@
         
         function updateOptionAmounts() {
             if (currentMode === 'equally') {
-                // Split equally among all options
                 const equalAmount = amount / 3;
                 optionItems.forEach(item => {
                     const amountSpan = item.querySelector('.option-amount');
-                    amountSpan.textContent = `${equalAmount.toFixed(2)}`;
+                    amountSpan.textContent = `$${equalAmount.toFixed(2)}`;
                 });
             } else if (currentMode === 'percentage') {
-                // Calculate based on percentages
                 optionItems.forEach(item => {
                     const option = item.dataset.option;
                     const percentage = optionPercentages[option] || 0;
                     const calculatedAmount = (amount * percentage) / 100;
                     const amountSpan = item.querySelector('.option-amount');
-                    amountSpan.textContent = `${calculatedAmount.toFixed(2)}`;
+                    amountSpan.textContent = `$${calculatedAmount.toFixed(2)}`;
                 });
             } else if (currentMode === 'amounts') {
-                // Use manual amounts
                 let totalUsed = 0;
                 optionItems.forEach(item => {
                     const option = item.dataset.option;
                     const manualAmount = optionAmounts[option] || 0;
                     totalUsed += manualAmount;
                     const amountSpan = item.querySelector('.option-amount');
-                    amountSpan.textContent = `${manualAmount.toFixed(2)}`;
+                    amountSpan.textContent = `$${manualAmount.toFixed(2)}`;
                 });
                 
-                // Update outstanding amount
                 const outstanding = amount - totalUsed;
                 const outstandingValue = document.querySelector('.outstanding-value');
-                outstandingValue.textContent = `${outstanding.toFixed(2)}`;
+                outstandingValue.textContent = `$${outstanding.toFixed(2)}`;
                 outstandingValue.style.color = outstanding < 0 ? '#ff4444' : 'var(--tg-theme-button-color, #0088cc)';
             }
+        }
+        
+        function handleAddExpense() {
+            // Validate inputs
+            if (!title.trim()) {
+                alert('Please enter a title');
+                return;
+            }
+            if (amount <= 0) {
+                alert('Please enter a valid amount');
+                return;
+            }
+            
+            // Gather option values
+            let expenseData = {
+                title: title.trim(),
+                amount,
+                mode: currentMode,
+                paid_by: selectedOption,
+                options: {}
+            };
+            
+            let totalAllocated = 0;
+            optionItems.forEach(item => {
+                const option = item.dataset.option;
+                let value = 0;
+                if (currentMode === 'equally') {
+                    value = amount / 3;
+                } else if (currentMode === 'percentage') {
+                    value = (amount * (optionPercentages[option] || 0)) / 100;
+                } else if (currentMode === 'amounts') {
+                    value = optionAmounts[option] || 0;
+                }
+                expenseData.options[option] = value;
+                totalAllocated += value;
+            });
+            
+            // Validate total allocation for amounts mode
+            if (currentMode === 'amounts' && Math.abs(totalAllocated - amount) > 0.01) {
+                alert(`Total allocated ($${totalAllocated.toFixed(2)}) doesn't match amount ($${amount.toFixed(2)})`);
+                return;
+            }
+            
+            // Process the expense
+            processExpense(expenseData);
+            
+            // Reset form and go back to home
+            resetExpenseForm();
+            showPage('home');
+            
+            console.log('Expense added successfully:', expenseData);
+        }
+        
+        function processExpense(expenseData) {
+            const { amount, paid_by, options } = expenseData;
+            
+            // The person who paid gets a positive balance (they're owed money)
+            balances[paid_by] += amount;
+            
+            // Each person owes their portion (negative balance)
+            Object.keys(options).forEach(person => {
+                const owedAmount = options[person];
+                balances[person] -= owedAmount;
+            });
+            
+            // Save and re-render
+            saveBalances();
+            renderBalances();
+        }
+        
+        function resetExpenseForm() {
+            titleInput.value = '';
+            amountInput.value = '';
+            title = '';
+            amount = 0;
+            optionAmounts = { a: 0, b: 0, c: 0 };
+            optionPercentages = { a: 0, b: 0, c: 0 };
+            selectedOption = 'a';
+            optionsDropdown.value = 'a';
+            
+            // Reset input fields
+            optionItems.forEach(item => {
+                const percentageInput = item.querySelector('.percentage-input');
+                const amountInputField = item.querySelector('.amount-input-field');
+                percentageInput.value = '';
+                amountInputField.value = '';
+            });
+            
+            // Reset to equally mode
+            switchMode('equally');
+            updateOptionAmounts();
+        }
+        
+        function renderBalances() {
+            const hasAnyBalance = Object.values(balances).some(balance => Math.abs(balance) > 0.01);
+            
+            if (!hasAnyBalance) {
+                balancesContent.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">📊</div>
+                        <div>No expenses yet.<br>Add your first expense to get started!</div>
+                    </div>
+                `;
+                return;
+            }
+            
+            balancesContent.innerHTML = '';
+            
+            Object.keys(balances).forEach(person => {
+                const balance = balances[person];
+                const balanceRow = document.createElement('div');
+                balanceRow.className = 'balance-row';
+                
+                let balanceClass = 'zero';
+                let balanceText = '$0.00';
+                
+                if (Math.abs(balance) > 0.01) {
+                    balanceClass = balance > 0 ? 'positive' : 'negative';
+                    balanceText = balance > 0 ? `+$${balance.toFixed(2)}` : `-$${Math.abs(balance).toFixed(2)}`;
+                }
+                
+                balanceRow.innerHTML = `
+                    <span class="person-name">${personNames[person]}</span>
+                    <span class="balance-amount ${balanceClass}">${balanceText}</span>
+                `;
+                
+                balancesContent.appendChild(balanceRow);
+            });
+        }
+        
+        function loadBalances() {
+            // For demo purposes, load from memory
+            // In a real app, you'd load from server/storage
+        }
+        
+        function saveBalances() {
+            // In a real app, you'd save to server
+            console.log('Balances saved:', balances);
         }
         
         function cleanup() {
@@ -570,11 +774,23 @@
         function updateLayout() {
             if (!tg || !tg.viewportHeight) return;
             
-            gameContainer.style.minHeight = `${tg.viewportHeight}px`;
+            document.body.style.minHeight = `${tg.viewportHeight}px`;
+        }
+        
+        // Demo function to add sample expense (for testing)
+        function addSampleExpense() {
+            const sampleExpense = {
+                title: "Dinner",
+                amount: 60,
+                mode: "equally",
+                paid_by: "a",
+                options: { a: 20, b: 20, c: 20 }
+            };
+            processExpense(sampleExpense);
         }
         
         // Initialize when page loads
-        document.addEventListener('DOMContentLoaded', initGame);
+        document.addEventListener('DOMContentLoaded', initApp);
     </script>
 </body>
 </html>

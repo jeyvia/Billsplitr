@@ -1,5 +1,4 @@
-from flask import Flask, request, render_template
-from flask import jsonify
+from flask import Flask, request, send_from_directory, jsonify
 import urllib.parse
 import json
 from dotenv import load_dotenv
@@ -12,7 +11,7 @@ load_dotenv()
 
 logging.basicConfig(level=logging.INFO)
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder=None)
 
 TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
 
@@ -59,7 +58,8 @@ def index():
             except Exception as e:
                 print("Error parsing initData:", str(e))
     
-    return render_template('game.html')
+    # Serve the local index.html file from the workspace directory
+    return send_from_directory('.', 'index.html')
 
 def send_telegram_message(user_id, message):
     """Send a message to a Telegram user."""
